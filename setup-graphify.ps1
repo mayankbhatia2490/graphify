@@ -8,7 +8,7 @@ if ($LASTEXITCODE -ne 0) { throw "Python 3.10+ required" }
 
 if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
     python -m pip install --user uv
-    $env:Path += ";$(python -m site --user-base)\Scripts"
+    $env:Path += ";$(python -c "import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))")"
 }
 
 if (uv tool list | Select-String '^graphifyy ') { uv tool upgrade graphifyy } else { uv tool install graphifyy }
